@@ -1,8 +1,8 @@
 # ==========================================
 # STAGE 1: Build the application using Gradle Wrapper
 # ==========================================
-# We just need a basic Java JDK; the wrapper will handle downloading Gradle
-FROM eclipse-temurin:17-jdk-alpine AS builder
+# Upgraded to Java 21 JDK
+FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY gradle ./gradle
 COPY build.gradle settings.gradle ./
 COPY src ./src
 
-# CRITICAL: Make the wrapper executable (fixes permission issues if you code on Windows)
+# Make the wrapper executable
 RUN chmod +x ./gradlew
 
 # Compile the code using the Wrapper
@@ -23,7 +23,8 @@ RUN ./gradlew build -x test
 # ==========================================
 # STAGE 2: Run the application
 # ==========================================
-FROM eclipse-temurin:17-jre-alpine
+# Upgraded to Java 21 JRE (Runtime Environment)
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
