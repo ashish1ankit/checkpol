@@ -18,7 +18,7 @@ COPY src ./src
 RUN chmod +x ./gradlew
 
 # Compile the code using the Wrapper
-RUN ./gradlew build -x test
+RUN ./gradlew build
 
 # ==========================================
 # STAGE 2: Run the application
