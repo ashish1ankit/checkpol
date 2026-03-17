@@ -9,17 +9,15 @@ pipeline {
             }
         }
         stage('Deploy Container') {
-                    steps {
-                        echo 'Deploying to Ubuntu Server via Docker Compose...'
-                        sh '''
-                        # Stop and remove the old containers safely
-                        docker compose down || true
-
-                        # Start the database and the app together in the background
-                        docker compose up -d
-                        '''
-                    }
-                }
+            steps {
+                echo 'Deploying via Modern Docker Compose...'
+                sh '''
+                # No hyphen! This uses the official Docker CLI plugin
+                docker compose down || true
+                docker compose up -d
+                '''
+            }
+        }
     }
     // NEW: The Post block runs after the stages finish
     post {
