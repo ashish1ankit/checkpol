@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # 1. The PostgreSQL Database Container
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: myappdb
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpass
+    ports:
+      - "5432:5432"
+    volumes:
+      # This saves your database data permanently to the Ubuntu hard drive!
+      - /var/lib/my-spring-app/pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # 2. Your Spring Boot App Container
+  app:
+    image: my-app:latest
+    container_name: my-app-container
+    depends_on:
+      - db  # Tells Docker to start the database before starting the app
+    ports:
+      - "8081:8080"
+    volumes:
+      - /var/log/my-spring-app:/app/logs
+    restart: unless-stopped

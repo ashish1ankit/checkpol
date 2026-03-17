@@ -1,3 +1,17 @@
 logging:
  file:
   path: /app/logs
+# Database Connection
+spring:
+ datasource:
+  url:
+   jdbc:
+    postgresql: //db:5432/myappdb
+  username: dbuser
+  password: dbpass
+  
+  # Automatically create/update database tables based on your Java code
+ jpa:
+  hibernate:
+   ddl-auto: update
+  show-sql: true
