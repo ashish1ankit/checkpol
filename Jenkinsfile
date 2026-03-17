@@ -1,38 +1,26 @@
 pipeline {
-    agent any // Run on any available Jenkins worker
+    agent any // Tells Jenkins to run this on the Ubuntu server
 
     stages {
-        stage('Checkout') {
+        stage('Build Docker Image') {
             steps {
-                // This step pulls your code from Git automatically
-                checkout scm
+                echo 'Building the Docker Image...'
+                // Builds the image and tags it as "my-app"
+                sh 'docker build -t my-app .' 
             }
         }
-
-        stage('Build & Test') {
+        stage('Deploy Container') {
             steps {
-                // Use the Gradle wrapper included in your project
-                // 'chmod +x' ensures the script has permission to run
-                sh 'chmod +x gradlew'
-                sh './gradlew clean build'
+                echo 'Deploying to Ubuntu Server...'
+                sh '''
+                // Stop and remove the old version if it's running
+                docker stop my-app-container || true
+                docker rm my-app-container || true
+                
+                // Start the new version (adjust port 8080:80 as needed for your app)
+                docker run -d -p 8080:80 --name my-app-container my-app
+                '''
             }
-        }
-
-        stage('Archive Artifact') {
-            steps {
-                // This saves the JAR file so you can download it from Jenkins
-                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-            }
-        }
-    }
-
-    post {
-        always {
-            // Good for interviews: Always clean up after yourself
-            deleteDir()
-        }
-        success {
-            echo 'Build finished successfully!'
         }
     }
 }
