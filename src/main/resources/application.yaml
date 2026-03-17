@@ -5,8 +5,7 @@ logging:
 spring:
  datasource:
   url:
-   jdbc:
-    postgresql: //db:5432/myappdb
+   jdbc:postgresql://db:5432/myappdb
   username: dbuser
   password: dbpass
   
