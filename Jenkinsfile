@@ -28,7 +28,7 @@ pipeline {
             sh """
             curl -H "Content-Type: application/json" \
                  -X POST \
-                 -d '{"content": "✅ **SUCCESS:** Spring Boot App built and deployed perfectly! Check it at http://myapp.local"}' \
+                 -d '{"content": "✅ **SUCCESS:** Spring Boot App built and deployed perfectly! Check it at http://192.168.1.23:8081/check"}' \
                  https://discord.com/api/webhooks/1483537963190190222/bLZFaZ0F409QMHH1ylD2E--EGpFHD8sg7ZNC4TYYZIAgWaAQzsz49324ZFyflpOyBBDj
             """
         }
