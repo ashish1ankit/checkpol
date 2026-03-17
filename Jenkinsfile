@@ -22,4 +22,23 @@ pipeline {
             }
         }
     }
+    // NEW: The Post block runs after the stages finish
+    post {
+        success {
+            sh """
+            curl -H "Content-Type: application/json" \
+                 -X POST \
+                 -d '{"content": "✅ **SUCCESS:** Spring Boot App built and deployed perfectly! Check it at http://myapp.local"}' \
+                 https://discord.com/api/webhooks/1483537963190190222/bLZFaZ0F409QMHH1ylD2E--EGpFHD8sg7ZNC4TYYZIAgWaAQzsz49324ZFyflpOyBBDj
+            """
+        }
+        failure {
+            sh """
+            curl -H "Content-Type: application/json" \
+                 -X POST \
+                 -d '{"content": "🚨 **FAILED:** Someone broke the build! The Jenkins pipeline crashed."}' \
+                 https://discord.com/api/webhooks/1483537963190190222/bLZFaZ0F409QMHH1ylD2E--EGpFHD8sg7ZNC4TYYZIAgWaAQzsz49324ZFyflpOyBBDj
+            """
+        }
+    }
 }
