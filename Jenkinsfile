@@ -16,8 +16,8 @@ pipeline {
                 docker stop my-app-container || true
                 docker rm my-app-container || true
                 
-                # Start the new version (adjust port 8080:80 as needed)
-                docker run -d -p 8081:80 --name my-app-container my-app
+                # Start the new version with a Volume mapped for logs
+                docker run -d -p 8081:8080 --name my-app-container -v /var/log/my-spring-app:/app/logs my-app
                 '''
             }
         }
