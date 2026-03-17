@@ -17,7 +17,7 @@ pipeline {
                 docker rm my-app-container || true
                 
                 # Start the new version (adjust port 8080:80 as needed)
-                docker run -d -p 8080:80 --name my-app-container my-app
+                docker run -d -p 8081:80 --name my-app-container my-app
                 '''
             }
         }
